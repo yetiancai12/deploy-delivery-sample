@@ -1,0 +1,23 @@
+name: CI
+on:
+  push: { branches: [main] }
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm test
+  docker:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t deploy-ready-sample .
+      - run: |
+          docker run -d -p 3000:3000 --name app deploy-ready-sample
+          sleep 3
+          curl -fsS http://localhost:3000/healthz
+# Deploy: Render auto-deploys on push to main (render.yaml). No secrets needed in CI.
