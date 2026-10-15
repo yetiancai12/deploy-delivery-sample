@@ -1,0 +1,1 @@
+{"name":"deploy-ready-sample","version":"1.0.0","private":true,"description":"Sample service for the Deploy-Ready Pack","main":"src/server.js","scripts":{"start":"node src/server.js","test":"node --test test/"},"engines":{"node":">=20"}}

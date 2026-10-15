@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: deploy-ready-sample
+    runtime: docker
+    plan: free
+    healthCheckPath: /healthz
+    autoDeploy: true   # set false to deploy manually (safer for production)
+    envVars:
+      - key: GREETING
+        value: Hello from Render
+      - key: APP_VERSION
+        value: 1.0.0
