@@ -20,4 +20,4 @@ jobs:
           docker run -d -p 3000:3000 --name app deploy-ready-sample
           sleep 3
           curl -fsS http://localhost:3000/healthz
-# Deploy: Render auto-deploys on push to main (render.yaml). No secrets needed in CI.
+# Deploy: render.yaml sets autoDeployTrigger: checksPass, so Render deploys after these checks pass. No secrets needed in CI.
