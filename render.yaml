@@ -4,7 +4,8 @@ services:
     runtime: docker
     plan: free
     healthCheckPath: /healthz
-    autoDeploy: true   # set false to deploy manually (safer for production)
+    # commit = deploy on every push; checksPass = deploy only after CI (.github/workflows/ci.yml) passes; off = manual
+    autoDeployTrigger: checksPass
     envVars:
       - key: GREETING
         value: Hello from Render
