@@ -2,13 +2,15 @@
 ## 1. 部署步骤(Render)
 1. 将代码推送到 GitHub main 分支。
 2. Render 控制台 → New → Blueprint → 选择仓库,自动识别 `render.yaml`。
-3. 核对环境变量(见 `.env.example`),点击 Apply。
+3. 核对环境变量(见 `.env.example`;在 `render.yaml` 或控制台中设置,Render 不会读取仓库里的 `.env`),点击 Apply。
 4. 等待构建完成,访问 `https://<服务名>.onrender.com/healthz`,应返回 `{"status":"ok"}`。
 5. (可选)Settings → Custom Domains 绑定域名,HTTPS 自动签发。
 Zeabur 方案:New Project → 从 GitHub 部署 → 选仓库,自动识别 Dockerfile;设置 PORT/GREETING 变量。
+本地运行:`node --env-file=.env src/server.js`(Node 20.6+)或 `PORT=3000 GREETING=Hi node src/server.js`;`.env` 不会被自动加载。
+自动部署:`render.yaml` 使用 `autoDeployTrigger: checksPass`(可选 `commit` | `checksPass` | `off`)。
 ## 2. 回滚
 - Render:服务 → Deploys → 选择上一个正常版本 → Rollback。
-- Git:`git revert <sha> && git push`(CI 重跑,自动部署)。
+- Git:`git revert <sha> && git push`(CI 重跑;配置了 `autoDeployTrigger: checksPass`,检查通过后 Render 才部署)。
 - 回滚后检查 `/healthz`,确认 `version` 符合预期。
 ## 3. 监控
 - render.yaml 已配置健康检查 `/healthz`,实例不健康会被自动重启。
